@@ -75,3 +75,54 @@ class RetrievalPlan:
     use_reranker: bool
     use_mmr: bool
     reason: str
+@dataclass
+class ChatMessage:
+    role: str
+    content: str
+
+
+@dataclass
+class LLMGenerationResult:
+    text: str
+    model: str
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+
+
+@dataclass
+class ResolvedCitation:
+    label: str
+    chunk_id: str
+    document_id: str
+    filename: str
+    page_number: int
+
+@dataclass
+class RAGAnswer:
+    query: str
+    answer: str
+    status: str
+
+    sources: list[ContextSource] = field(
+        default_factory=list
+    )
+
+    citations: list[ResolvedCitation] = field(
+        default_factory=list
+    )
+
+    model: str | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+
+
+@dataclass
+class CitationValidationResult:
+    valid: bool
+    citations: list[ResolvedCitation] = field(
+        default_factory=list
+    )
+    invalid_labels: list[str] = field(
+        default_factory=list
+    )
+    has_citations: bool = False
